@@ -13,7 +13,7 @@ def get_response(user_input: str):
         "python": {
             "keywords": ["python"],
             "details": (
-                "📘 Python Programming Course\n"
+                " Python Programming Course\n"
                 "- Duration: 3 months\n"
                 "- Level: Beginner to Advanced\n"
                 "- Topics: Basics, OOP, APIs, FastAPI\n"
@@ -23,7 +23,7 @@ def get_response(user_input: str):
         "web": {
             "keywords": ["web", "web development", "frontend", "backend"],
             "details": (
-                "🌐 Web Development Course\n"
+                " Web Development Course\n"
                 "- Duration: 3 months\n"
                 "- Topics: HTML, CSS, JavaScript, React\n"
                 "- Backend: Django / Node.js\n"
