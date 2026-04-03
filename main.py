@@ -1,9 +1,16 @@
 from fastapi import FastAPI
+from fastapi import FastAPI, Request
 from pydantic import BaseModel
-import re
-import random
+from fastapi.responses import HTMLResponse
+from fastapi.templating import Jinja2Templates
+from fastapi.staticfiles import StaticFiles
 
 app = FastAPI(title="Bano Qabil Chatbot API")
+#  static folder (CSS)
+app.mount("/static", StaticFiles(directory="static"), name="static")
+
+# Templates folder
+templates = Jinja2Templates(directory="templates")
 class UserMessage(BaseModel):
     text: str
 def get_response(user_input: str):
@@ -13,7 +20,7 @@ def get_response(user_input: str):
         "python": {
             "keywords": ["python"],
             "details": (
-                "📘 Python Programming Course\n"
+                "Python Programming Course\n"
                 "- Duration: 3 months\n"
                 "- Level: Beginner to Advanced\n"
                 "- Topics: Basics, OOP, APIs, FastAPI\n"
@@ -23,14 +30,14 @@ def get_response(user_input: str):
         "web": {
             "keywords": ["web", "web development", "frontend", "backend"],
             "details": (
-                "🌐 Web Development Course\n"
+                "Web Development Course\n"
                 "- Duration: 3 months\n"
                 "- Topics: HTML, CSS, JavaScript, React\n"
                 "- Backend: Django / Node.js\n"
                 "- Career Paths: Web Developer"
             )
         },
-        "AI": {
+        "ai": {
             "keywords": ["ai", "artificial intelligence", "machine learning"],
             "details": (
                 " Artificial Intelligence Course\n"
@@ -52,13 +59,12 @@ def get_response(user_input: str):
         }
     }
 
-    # Check for course-specific details
     for course in courses.values():
         for keyword in course["keywords"]:
             if keyword in user_input:
                 return course["details"]
 
-    # General responses
+
     if "course" in user_input or "courses" in user_input:
         return "We offer Python, Web Development, AI, and Graphic Design."
 
@@ -69,6 +75,9 @@ def get_response(user_input: str):
         return "Assalam-o-Alaikum! Welcome to Bano Qabil."
 
     return "Sorry, I didn't understand. Ask about a specific course like Python or AI."
+@app.get("/", response_class=HTMLResponse)
+def home(request: Request):
+    return templates.TemplateResponse("index.html", {"request": request})
 @app.post("/chat")
 def chat(message: UserMessage):
     reply = get_response(message.text)
