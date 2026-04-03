@@ -20,7 +20,7 @@ def get_response(user_input: str):
         "python": {
             "keywords": ["python"],
             "details": (
-                "Python Programming Course\n"
+                " Python Programming Course\n"
                 "- Duration: 3 months\n"
                 "- Level: Beginner to Advanced\n"
                 "- Topics: Basics, OOP, APIs, FastAPI\n"
